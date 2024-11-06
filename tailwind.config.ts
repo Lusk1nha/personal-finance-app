@@ -99,6 +99,18 @@ const config: Config = {
         200: "var(--app-spacing-200)",
         250: "var(--app-spacing-250)",
         300: "var(--app-spacing-300)",
+        350: "var(--app-spacing-350)",
+        400: "var(--app-spacing-400)",
+        500: "var(--app-spacing-500)",
+      },
+      margin: {
+        50: "var(--app-spacing-50)",
+        100: "var(--app-spacing-100)",
+        150: "var(--app-spacing-150)",
+        200: "var(--app-spacing-200)",
+        250: "var(--app-spacing-250)",
+        300: "var(--app-spacing-300)",
+        350: "var(--app-spacing-350)",
         400: "var(--app-spacing-400)",
         500: "var(--app-spacing-500)",
       }

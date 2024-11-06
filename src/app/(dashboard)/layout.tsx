@@ -6,7 +6,9 @@ export default function Layout({
   return (
     <div className="bg-appBeige-100 w-full h-screen relative flex flex-col-reverse lg:flex-row">
       <Sidebar />
-      <div className="w-full h-full">{children}</div>
+      <div className="w-full h-full pb-[52px] md:pb-[74px] lg:pb-0">
+        {children}
+      </div>
     </div>
   );
 }

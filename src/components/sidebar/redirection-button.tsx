@@ -1,15 +1,18 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import Image from "next/image";
+
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Tooltip, TooltipContent, TooltipTrigger } from "../ui/tooltip";
 import { motion } from "framer-motion";
+import { useEffect, useMemo, useState } from "react";
+
+type Variant = "icon" | "long";
 
 interface IRedirectButtonProps {
   variant?: "icon" | "long";
-  icon: string;
+  icon: React.FC<React.SVGProps<SVGSVGElement>>;
   title: string;
   href: string;
   description?: string;
@@ -17,20 +20,33 @@ interface IRedirectButtonProps {
 
 export function RedirectButton(props: Readonly<IRedirectButtonProps>) {
   const { variant = "long", href } = props;
-
   const pathname = usePathname();
-  const isActive = pathname === href;
+  const [isClient, setIsClient] = useState(false);
 
-  const component =
-    variant === "long" ? (
-      <LongVariant isActive={isActive} {...props} />
-    ) : (
-      <IconVariant isActive={isActive} {...props} />
-    );
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  const currentPathname = isClient ? pathname : "";
+  const isActive = currentPathname === href;
+
+  const component = useMemo(
+    () => getComponent(variant),
+    [variant, isActive, getComponent]
+  );
+
+  function getComponent(variant: Variant) {
+    switch (variant) {
+      case "long":
+        return <LongVariant isActive={isActive} {...props} />;
+      case "icon":
+        return <IconVariant isActive={isActive} {...props} />;
+    }
+  }
 
   return (
     <motion.div
-      className="w-full"
+      className="w-full flex items-center"
       variants={{
         hidden: {
           opacity: 0,
@@ -40,12 +56,7 @@ export function RedirectButton(props: Readonly<IRedirectButtonProps>) {
         },
       }}
     >
-      <Tooltip>
-        <TooltipTrigger className="w-full">{component}</TooltipTrigger>
-        <TooltipContent className="bg-appGrey-300 text-appGrey" side="right">
-          {props.description ?? props.title}
-        </TooltipContent>
-      </Tooltip>
+      {component}
     </motion.div>
   );
 }
@@ -55,56 +66,45 @@ interface VariantProps extends IRedirectButtonProps {
 }
 
 function LongVariant(props: Readonly<VariantProps>) {
-  const { icon, title, href, isActive } = props;
+  const { icon: Icon, title, href, isActive } = props;
   return (
     <Link
       href={href}
       className={cn(
-        "w-full flex items-center h-14 pl-400 gap-4 rounded-r-150 text-base font-bold group",
+        "w-full flex items-center h-14 pl-300 mr-300 gap-4 rounded-r-150 text-base font-bold group",
         isActive
-          ? "bg-appBeige-100 text-appGrey border-l-4 border-l-appGreen"
+          ? "bg-appBeige-100 text-appGrey border-l-4 border-l-appGreen pl-250"
           : "text-appGrey-300 hover:text-appGrey-100"
       )}
     >
-      <Image
-        width={18}
-        height={19}
-        src={`/images/${icon}.svg`}
-        className={cn(
-          isActive
-            ? "text-appGreen"
-            : "text-appGrey-300 group-hover:text-appGrey-100"
-        )}
-        alt={icon}
-        priority
-      />
-
+      <Icon className={cn("w-[18px] h-[19px]", isActive && "text-appGreen")} />
       {title}
     </Link>
   );
 }
 
 function IconVariant(props: Readonly<VariantProps>) {
-  const { icon, href, isActive } = props;
+  const { icon: Icon, href, isActive } = props;
   return (
-    <Link
-      href={href}
-      className={cn(
-        "w-full flex items-center justify-center h-14 gap-4 rounded-150 text-base font-bold text-appGrey-300 hover:text-appGrey-100"
-      )}
-    >
-      <Image
-        width={18}
-        height={19}
-        priority
-        src={`/images/${icon}.svg`}
-        className={cn(
-          isActive
-            ? "text-appGreen"
-            : "text-appGrey-300 group-hover:text-appGrey-100"
-        )}
-        alt={icon}
-      />
-    </Link>
+    <Tooltip>
+      <TooltipTrigger asChild className="w-full">
+        <Link
+          href={href}
+          className={cn(
+            "w-full flex items-center justify-center pl-100 mr-100 h-14 gap-4 rounded-r-150 text-base font-bold text-appGrey-300 hover:text-appGrey-100",
+            isActive
+              ? "bg-appBeige-100 text-appGrey border-l-4 border-l-appGreen"
+              : "text-appGrey-300"
+          )}
+        >
+          <Icon
+            className={cn("w-[18px] h-[19px]", isActive && "text-appGreen")}
+          />
+        </Link>
+      </TooltipTrigger>
+      <TooltipContent className="bg-appGrey-300 text-appGrey" side="right">
+        {props.description ?? props.title}
+      </TooltipContent>
+    </Tooltip>
   );
 }

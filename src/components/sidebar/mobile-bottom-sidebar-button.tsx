@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 export function MobileBottomSidebar() {
   return (
     <AnimatePresence>
-      <div className="bg-appGrey w-full h-[52px] md:h-[74px] rounded-t-100">
+      <div className="bg-appGrey w-full h-[52px] md:h-[74px] fixed bottom-0 rounded-t-100">
         <motion.nav
           className="w-full h-full flex items-center justify-center gap-4 px-2 pt-2"
           variants={{

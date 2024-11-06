@@ -1,6 +1,5 @@
-import Image from "next/image";
-import logoSmall from "../../public/images/logo-small.svg";
-import logoLarge from "../../public/images/logo-large.svg";
+import IconLogoSmall from "./icons/logo-small";
+import IconLogoLarge from "./icons/logo-large";
 
 interface ILogoProps {
   title: string;
@@ -15,22 +14,16 @@ export function Logo(props: Readonly<ILogoProps>) {
   const component = type === "icon" ? <ShortLogo /> : <LongLogo />;
 
   return (
-    <div title={title} aria-label={ariaDescription}>
+    <div className="text-appWhite" title={title} aria-label={ariaDescription}>
       {component}
     </div>
   );
 }
 
 function ShortLogo() {
-  return <Image src={logoSmall} alt="Logo image only with the icon" priority />;
+  return <IconLogoSmall />;
 }
 
 function LongLogo() {
-  return (
-    <Image
-      src={logoLarge}
-      alt="Logo image with the icon and the name"
-      priority
-    />
-  );
+  return <IconLogoLarge />;
 }
