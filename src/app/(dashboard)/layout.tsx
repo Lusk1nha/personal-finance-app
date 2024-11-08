@@ -4,8 +4,9 @@ export default function Layout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <div className="bg-appBeige-100 w-full h-screen relative flex flex-col-reverse lg:flex-row">
+    <div className="bg-appBeige-100 w-full h-screen relative flex">
       <Sidebar />
+
       <div className="w-full h-full pb-[52px] md:pb-[74px] lg:pb-0">
         {children}
       </div>
