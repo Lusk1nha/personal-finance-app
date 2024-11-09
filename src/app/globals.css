@@ -61,6 +61,7 @@
     --app-spacing-200: 1rem;
     --app-spacing-250: 1.25rem;
     --app-spacing-300: 1.5rem;
+    --app-spacing-350: 1.75rem;
     --app-spacing-400: 2rem;
     --app-spacing-500: 2.5rem;
   }
@@ -114,15 +115,6 @@
     --app-gold: 47 50% 59%;
     --app-orange: 18 47% 52%;
     --app-white: 0 0% 100%;
-
-    --app-spacing-50: 0.25rem;
-    --app-spacing-100: 0.5rem;
-    --app-spacing-150: 0.75rem;
-    --app-spacing-200: 1rem;
-    --app-spacing-250: 1.25rem;
-    --app-spacing-300: 1.5rem;
-    --app-spacing-400: 2rem;
-    --app-spacing-500: 2.5rem;
   }
 }
 

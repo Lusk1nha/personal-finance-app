@@ -2,19 +2,19 @@ import React from "react";
 
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
+
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 
 interface IRedirectButtonProps {
-  icon: string;
+  icon: React.FC<React.SVGProps<SVGSVGElement>>;
   title: string;
   href: string;
   description?: string;
 }
 
 export function MobileRedirectionButton(props: Readonly<IRedirectButtonProps>) {
-  const { title, href, icon, description } = props;
+  const { title, href, icon: Icon, description } = props;
 
   const pathname = usePathname();
   const isActive = pathname === href;
@@ -38,22 +38,11 @@ export function MobileRedirectionButton(props: Readonly<IRedirectButtonProps>) {
           },
         }}
       >
-        <div className="flex items-center justify-center">
-          <Image
-            width={18}
-            height={18}
-            src={`/images/${icon}.svg`}
-            className={cn(
-              isActive
-                ? "text-appGreen"
-                : "text-appGrey-300 group-hover:text-appGrey-100"
-            )}
-            alt={icon}
-            priority
-          />
+        <div className={cn("flex items-center justify-evenly")}>
+          <Icon className="w-[18px] h-[18px]" />
         </div>
 
-        <span className="text-xs hidden md:block">{title}</span>
+        <span className="text-xs font-bold hidden md:block">{title}</span>
       </motion.button>
     </Link>
   );

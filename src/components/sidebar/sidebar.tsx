@@ -6,11 +6,11 @@ import { DesktopSidebar } from "./desktop-sidebar";
 export function Sidebar() {
   return (
     <>
-      <div className="w-full flex lg:hidden">
+      <div id="mobile-bottom-sidebar" className="lg:hidden">
         <MobileBottomSidebar />
       </div>
 
-      <div className="hidden lg:flex">
+      <div id="desktop-sidebar" className="relative hidden lg:block">
         <DesktopSidebar />
       </div>
     </>

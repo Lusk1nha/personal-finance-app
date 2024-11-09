@@ -4,9 +4,9 @@ import { PageWrapper } from "@/components/page-utils/page-wrapper";
 
 export default function Page() {
   return (
-    <PageWrapper id="overview-page">
+    <PageWrapper id="transactions-page">
       <PageHeader>
-        <PageTitle title="Overview">Overview</PageTitle>
+        <PageTitle title="Transactions">Transactions</PageTitle>
       </PageHeader>
 
       <main>Home</main>
