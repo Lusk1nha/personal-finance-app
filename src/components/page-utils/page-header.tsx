@@ -8,5 +8,9 @@ interface IPageHeaderProps {
 export function PageHeader(props: Readonly<IPageHeaderProps>) {
   const { children, className } = props;
 
-  return <header className={cn("w-full flex", className)}>{children}</header>;
+  return (
+    <header id="page-header" className={cn("w-full flex", className)}>
+      {children}
+    </header>
+  );
 }
