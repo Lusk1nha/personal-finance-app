@@ -7,7 +7,7 @@ export default function Layout({
     <div className="bg-appBeige-100 w-full h-screen relative flex">
       <Sidebar />
 
-      <div className="w-full h-full pb-[52px] md:pb-[74px] lg:pb-0">
+      <div className="w-full h-full px-200 py-300 md:p-500 pb-[52px] md:pb-[74px] lg:pb-400">
         {children}
       </div>
     </div>

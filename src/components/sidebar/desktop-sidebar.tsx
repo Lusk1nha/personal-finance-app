@@ -68,7 +68,7 @@ export function DesktopSidebar() {
           variants={contentVariants}
           className="h-full flex flex-col items-start justify-between bg-appGrey rounded-r-200 gap-16"
         >
-          <div className="w-full flex flex-col gap-8">
+          <div className="w-full flex flex-col gap-4">
             {/* Seção do Logo */}
             <div
               className={cn(
