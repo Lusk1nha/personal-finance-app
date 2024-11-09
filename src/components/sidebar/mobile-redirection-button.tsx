@@ -20,11 +20,11 @@ export function MobileRedirectionButton(props: Readonly<IRedirectButtonProps>) {
   const isActive = pathname === href;
 
   return (
-    <Link className="h-full" href={href} aria-label={description}>
+    <Link className="max-w-[104px] md:max-w-none w-full md:w-auto h-full" href={href} aria-label={description}>
       <motion.button
         type="button"
         className={cn(
-          "w-auto h-full flex flex-col items-center justify-center gap-2 rounded-t-100 px-4",
+          "w-full md:w-auto h-full flex flex-col items-center justify-center gap-2 rounded-t-100 px-4",
           isActive
             ? "bg-appBeige-100 border-b-4 border-appGreen text-appGrey"
             : "bg-appGrey text-appGrey-300 hover:text-appBeige-100"

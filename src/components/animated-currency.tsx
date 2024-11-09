@@ -20,7 +20,7 @@ export function AnimatedCurrency(props: Readonly<IAnimatedCurrencyProps>) {
     const node = nodeRef.current;
 
     const controls = animate(prev, curr, {
-      duration: 2,
+      duration: 1,
       ease: "easeOut",
       onUpdate(value) {
         if (!node) return;
