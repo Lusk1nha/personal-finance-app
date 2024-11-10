@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 interface IToolbarTableCommandsProps<TData> {
   table: Table<TData>;
   searchOptions?: SearchState;
-  actions?: ActionCallout[];
+  actions?: ActionCallout<TData>[];
 }
 
 export function TopTableToolbar<TData>(
@@ -20,7 +20,7 @@ export function TopTableToolbar<TData>(
   return (
     <section
       id="top-table-toolbar"
-      className="w-full flex items-center justify-between gap-300 flex-wrap md:flex-nowrap"
+      className="w-full flex items-center justify-between gap-300"
     >
       <div className={cn("w-full", actions && "max-w-[320px]")}>
         {searchOptions && (
@@ -31,7 +31,11 @@ export function TopTableToolbar<TData>(
       {actions && (
         <div className="flex items-center justify-end gap-300">
           {actions?.map((action) => (
-            <ActionTableCallout table={table} key={action.id} {...action} />
+            <ActionTableCallout<TData>
+              table={table}
+              key={action.id}
+              {...action}
+            />
           ))}
         </div>
       )}

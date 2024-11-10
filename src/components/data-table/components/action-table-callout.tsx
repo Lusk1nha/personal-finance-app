@@ -11,7 +11,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"; 
+} from "@/components/ui/select";
 
 import { Table } from "@tanstack/react-table";
 import { useState } from "react";
@@ -21,26 +21,33 @@ type ActionOption = {
   label: string;
 };
 
-export type ActionCallout = {
+export type ActionCallout<TData> = {
   id: string;
+
   title: string;
   icon: React.ReactNode;
 
   label: string;
   options: ActionOption[];
+
+  onTableAction?: (value: string, table: Table<TData>) => void;
 };
 
-interface IActionTableCalloutProps<TData> extends ActionCallout {
+interface IActionTableCalloutProps<TData> extends ActionCallout<TData> {
   table: Table<TData>;
 }
 
 export function ActionTableCallout<TData>(
   props: Readonly<IActionTableCalloutProps<TData>>
 ) {
-  const { id, label } = props;
+  const { id, label, table, onTableAction } = props;
 
   function onChange(value: string) {
     console.log("ActionTableButton", value);
+
+    if (onTableAction) {
+      onTableAction(value, table);
+    }
   }
 
   return (
@@ -59,11 +66,11 @@ export function ActionTableCallout<TData>(
   );
 }
 
-interface IMobileActionProps extends ActionCallout {
+interface IMobileActionProps<TData> extends ActionCallout<TData> {
   onChange: (value: string) => void;
 }
 
-function MobileAction(props: Readonly<IMobileActionProps>) {
+function MobileAction<TData>(props: Readonly<IMobileActionProps<TData>>) {
   const { label, icon, onChange, options } = props;
   const [isOpen, setIsOpen] = useState(false);
 
@@ -72,7 +79,7 @@ function MobileAction(props: Readonly<IMobileActionProps>) {
       <PopoverTrigger asChild>
         <button type="button">{icon}</button>
       </PopoverTrigger>
-      <PopoverContent className="w-auto">
+      <PopoverContent align="end" className="w-auto">
         <p className="w-full text-appGrey-500 text-left text-sm font-normal border-b border-appGrey-100 pb-150">
           {label}
         </p>
@@ -92,11 +99,11 @@ function MobileAction(props: Readonly<IMobileActionProps>) {
   );
 }
 
-interface IDesktopActionProps extends ActionCallout {
+interface IDesktopActionProps<TData> extends ActionCallout<TData> {
   onChange: (value: string) => void;
 }
 
-function DesktopAction(props: Readonly<IDesktopActionProps>) {
+function DesktopAction<TData>(props: Readonly<IDesktopActionProps<TData>>) {
   const { onChange, options } = props;
   const [isOpen, setIsOpen] = useState(false);
 

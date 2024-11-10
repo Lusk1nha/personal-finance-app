@@ -12,3 +12,13 @@ datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
 }
+
+model Transaction {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  avatar    String
+  name      String
+  category  String
+  date      DateTime
+  amount    Float
+  recurring Boolean
+}

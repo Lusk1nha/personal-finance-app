@@ -1,43 +1,44 @@
 "use client";
 
-import { ActionCallout } from "@/components/data-table/components/action-table-callout";
+import { useEffect, useMemo, useState } from "react";
+
 import { DataTable } from "../../data-table/data-table";
-import { columns } from "./columns";
-import IconSortMobile from "@/components/icons/icon-sort-mobile";
-import IconFilterMobile from "@/components/icons/icon-filter-mobile";
+import { Transaction } from "@prisma/client";
+import { ArrayHelper } from "@/shared/helpers/array-helper";
+import { TransactionsMock } from "@/shared/mocks/transactions-mock";
+
+import { transactionsColumns } from "./columns";
+import { transactionsActions } from "./actions";
 
 export function TransactionsTable() {
-  const actions: ActionCallout[] = [
-    {
-      id: "sort",
-      title: "Sort",
-      icon: <IconSortMobile />,
-      label: "Sort by",
-      options: [
-        { id: "date", label: "Date" },
-        { id: "email", label: "Email" },
-        { id: "amount", label: "Amount" },
-      ],
-    },
-    {
-      id: "filter",
-      title: "Filter",
-      icon: <IconFilterMobile />,
-      label: "Category",
-      options: [],
-    },
-  ];
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  const transactions = useMemo(() => {
+    const mock = new ArrayHelper().createArrayByLength(10, () =>
+      new TransactionsMock().createTransaction()
+    );
+
+    return mock;
+  }, []);
+
+  if (!isMounted) {
+    return null;
+  }
 
   return (
-    <DataTable
+    <DataTable<Transaction>
       id="transactions-table"
-      columns={columns}
-      data={[]}
+      columns={transactionsColumns}
+      data={transactions}
       searchOptions={{
-        columnId: "email",
+        columnId: "name",
         placeholder: "Search transaction",
       }}
-      actions={actions}
+      actions={transactionsActions}
     />
   );
 }

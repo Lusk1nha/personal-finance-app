@@ -15,10 +15,16 @@ export function RowTable<TData>(props: Readonly<IRowTableProps<TData>>) {
     <Fragment key={row.id}>
       <TableRow
         data-state={row.getIsSelected() && "selected"}
-        className={cn(row.getIsExpanded() && "border-b-0")}
+        className={cn(
+          "border-appGrey-100",
+          row.getIsExpanded() && "border-b-0"
+        )}
       >
         {row.getVisibleCells().map((cell) => (
-          <TableCell key={cell.id}>
+          <TableCell
+            className="text-xs font-normal text-appGrey-500 py-200"
+            key={cell.id}
+          >
             {flexRender(cell.column.columnDef.cell, cell.getContext())}
           </TableCell>
         ))}

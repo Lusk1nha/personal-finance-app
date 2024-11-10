@@ -2,7 +2,17 @@
 
 import {
   ColumnDef,
+  ColumnFiltersState,
   getCoreRowModel,
+  getExpandedRowModel,
+  getFacetedRowModel,
+  getFacetedUniqueValues,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  PaginationState,
+  Row,
+  SortingState,
   useReactTable,
 } from "@tanstack/react-table";
 
@@ -12,27 +22,77 @@ import { BodyTable } from "./components/body-table";
 import { TopTableToolbar } from "./top-table-toolbar";
 import { SearchState } from "./components/search-table";
 import { ActionCallout } from "./components/action-table-callout";
+import { useState } from "react";
 
-interface DataTableProps<TData, TValue> {
+interface DataTableProps<TData> {
   id: string;
-  columns: ColumnDef<TData, TValue>[];
+  columns: ColumnDef<TData>[];
   data: TData[];
 
   searchOptions?: SearchState;
-  actions?: ActionCallout[];
+  actions?: ActionCallout<TData>[];
+
+  defaultSorting?: SortingState;
+  defaultPagination?: PaginationState;
+  defaultColumnFilters?: ColumnFiltersState;
 
   defaultSizes?: number[];
+
+  renderSubComponent?: (props: { row: Row<TData> }) => React.ReactElement;
+  getRowCanExpand?: (row: Row<TData>) => boolean;
 }
 
-export function DataTable<TData, TValue>(
-  props: Readonly<DataTableProps<TData, TValue>>
-) {
-  const { id, searchOptions, columns, data, actions } = props;
+export function DataTable<TData>(props: Readonly<DataTableProps<TData>>) {
+  const {
+    id,
+    searchOptions,
+    columns,
+    data,
+    actions,
+    defaultPagination = {
+      pageSize: 10,
+      pageIndex: 0,
+    },
+
+    defaultSorting,
+    defaultColumnFilters,
+    getRowCanExpand,
+  } = props;
+
+  const [sorting, setSorting] = useState<SortingState>(defaultSorting ?? []);
+  const [pagination, setPagination] =
+    useState<PaginationState>(defaultPagination);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>(
+    defaultColumnFilters ?? []
+  );
 
   const table = useReactTable({
     data,
     columns,
+    rowCount: data.length,
+
     getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+
+    onSortingChange: setSorting,
+
+    getPaginationRowModel: getPaginationRowModel(),
+    onPaginationChange: setPagination,
+
+    onColumnFiltersChange: setColumnFilters,
+    getFilteredRowModel: getFilteredRowModel(),
+
+    getExpandedRowModel: getExpandedRowModel(),
+    getRowCanExpand,
+
+    getFacetedRowModel: getFacetedRowModel(),
+    getFacetedUniqueValues: getFacetedUniqueValues(),
+
+    state: {
+      sorting,
+      pagination,
+      columnFilters,
+    },
   });
 
   return (
