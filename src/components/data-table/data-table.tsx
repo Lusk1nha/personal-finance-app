@@ -104,7 +104,7 @@ export function DataTable<TData>(props: Readonly<DataTableProps<TData>>) {
           actions={actions}
         />
 
-        <Table>
+        <Table className="h-full overflow-hidden" id={"table-content-" + id}>
           <HeaderTable<TData> table={table} />
           <BodyTable<TData> table={table} />
         </Table>

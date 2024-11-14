@@ -1,5 +1,5 @@
 import { Row, Table } from "@tanstack/react-table";
-import { TableBody } from "../../ui/table";
+import { TableBody, TableCell, TableRow } from "../../ui/table";
 import { EmptyTableRow } from "./empty-table-row";
 import { RowTable } from "./row-table";
 
@@ -16,7 +16,9 @@ export function BodyTable<TData>(props: Readonly<IBodyTableProps<TData>>) {
     renderSubComponent,
   } = props;
 
-  if (!table.getRowModel().rows?.length)
+  const rows = table.getRowModel().rows;
+
+  if (!rows?.length)
     return (
       <TableBody>
         <EmptyTableRow
@@ -28,13 +30,22 @@ export function BodyTable<TData>(props: Readonly<IBodyTableProps<TData>>) {
 
   return (
     <TableBody>
-      {table.getRowModel().rows.map((row) => (
+      {rows.map((row) => (
         <RowTable<TData>
           key={row.id}
           row={row}
           renderSubComponent={renderSubComponent}
         />
       ))}
+      <TableRow className="table-row md:hidden">
+        <TableCell colSpan={rows[0].getVisibleCells().length}>
+          <div className="w-full h-10 flex items-center justify-center">
+            <p className="text-sm text-appGrey-500 font-medium">
+              Last row reached. No more data to display.
+            </p>
+          </div>
+        </TableCell>
+      </TableRow>
     </TableBody>
   );
 }

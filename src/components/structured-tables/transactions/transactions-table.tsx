@@ -18,7 +18,7 @@ export function TransactionsTable() {
   }, []);
 
   const transactions = useMemo(() => {
-    const mock = new ArrayHelper().createArrayByLength(10, () =>
+    const mock = new ArrayHelper().createArrayByLength(0, () =>
       new TransactionsMock().createTransaction()
     );
 
